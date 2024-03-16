@@ -9,8 +9,8 @@ const MainPage: React.FC = () => {
     // We use an array to store the incoming Notifications. 
     // We only display x number of notifications as specified by the limit.
     const [notifications, setNotifications] = useState<Notification[]>([]);
-    const [maxNotifications, setMaxNotifications] = useState<number>(5); //Default value
-    const [notificationPosition, setNotificationPosition] = useState<number>(3); //Default position: Top Right
+    const [maxNotifications, setMaxNotifications] = useState<number>(4); //Default value
+    const [notificationPosition, setNotificationPosition] = useState<number>(4); //Default position: Top Right
     const [notificationDisappearTime, setNotificationDisappearTime] = useState<number>(60000); // Default timeout in milliseconds
 
     // We need our client side to react when there is an incoming notification from the server side.
