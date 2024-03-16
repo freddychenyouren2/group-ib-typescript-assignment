@@ -1,0 +1,32 @@
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.settings-box {
+    width: 90%;
+    /* max-width: 600px; */
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+}
+  
+.label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-right: auto;
+}
+
+.radio-buttons label {
+    display: inline;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+  
+.radio-buttons input[type='radio'] {
+    margin-right: 5px;
+}
+  

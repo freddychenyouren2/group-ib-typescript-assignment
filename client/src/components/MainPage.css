@@ -1,0 +1,39 @@
+.notification-container {
+    position: absolute; /* Set position relative for absolute positioning of notifications */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 30%;
+}
+
+
+.notification-container.position-1 {
+  position: relative;
+  display: block;
+  flex-grow: 1;
+  left: 0%;
+}
+
+.notification-container.position-2 {
+  position: relative;
+  display: block;
+  flex-grow: 1;
+  left: 65%;
+}
+
+.notification-container.position-3 {
+  position: relative;
+  display: block;
+  flex-grow: 1;
+  left: 0%;
+  margin-top: auto;
+}
+
+.notification-container.position-4 {
+  position: relative;
+  display: block;
+  flex-grow: 1;
+  right: 10px;
+  left: 65%;
+  margin-top: auto;
+}
