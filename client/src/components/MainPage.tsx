@@ -11,10 +11,7 @@ const MainPage: React.FC = () => {
     // We only display x number of notifications as specified by the limit.
     
     const [notifications, setNotifications] = useState<NotificationWithTimeout[]>([]);
-    // const [maxNotifications, setMaxNotifications] = useState<number>(4); //Default value
-    // const [notificationPosition, setNotificationPosition] = useState<number>(4); //Default position: Top Right
-    // const [notificationDisappearTime, setNotificationDisappearTime] = useState<number>(10000); // Default timeout in milliseconds
-    const { notificationCount, notificationPosition, notificationDisappearTime } = useSettings();
+   const { notificationCount, notificationPosition, notificationDisappearTime } = useSettings();
     // We need our client side to react when there is an incoming notification from the server side.
     useEffect(() => {
 
@@ -100,13 +97,6 @@ const MainPage: React.FC = () => {
                         notification={notification}
                         onClose={() => { handleCloseNotification(notification, index); } } />
                 </div>
-                
-                {/* <div>
-                        <NotificationBox
-                            key={index}
-                            notification={notification}
-                            onClose={() => { handleCloseNotification(index); } } />
-                </div> */}
                 </>
             ))}
       </div>

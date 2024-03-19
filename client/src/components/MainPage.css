@@ -26,6 +26,7 @@
   flex-grow: 1;
   bottom: 10px;
   left: 1%;
+  max-height: 60vh;
   margin-top: auto;
 }
 
@@ -35,4 +36,5 @@
   bottom: 10px;
   right: 10px;
   left: 67%;
+  max-height: 60vh;
 }

@@ -12,8 +12,10 @@ const App: React.FC = () => {
             <Router>
                 <div className="app">
                     <header>
-                        <h1>Group-IB</h1>
-                        <NavigationBar />
+                        <div className="header-container">
+                            <h1>Group-IB</h1>
+                            <NavigationBar />
+                        </div>
                     </header>
                     <main>
                         <div className="container">
