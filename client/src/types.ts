@@ -3,3 +3,7 @@ export interface Notification {
   msg: string;
   time: string;
 }
+
+export interface NotificationWithTimeout extends Notification {
+  timeoutId?: NodeJS.Timeout;
+}

@@ -1,5 +1,5 @@
 import React , { useState, useEffect } from "react";
-import { Notification } from "../types";
+import { Notification, NotificationWithTimeout } from "../types";
 import NotificationBox from "./NotificationBox/NotificationBox";
 import './MainPage.css'
 
@@ -8,10 +8,10 @@ const MainPage: React.FC = () => {
     // Accept the Notification objects from server. There is a variable state change. Use useState
     // We use an array to store the incoming Notifications. 
     // We only display x number of notifications as specified by the limit.
-    const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [notifications, setNotifications] = useState<NotificationWithTimeout[]>([]);
     const [maxNotifications, setMaxNotifications] = useState<number>(4); //Default value
     const [notificationPosition, setNotificationPosition] = useState<number>(4); //Default position: Top Right
-    const [notificationDisappearTime, setNotificationDisappearTime] = useState<number>(60000); // Default timeout in milliseconds
+    const [notificationDisappearTime, setNotificationDisappearTime] = useState<number>(2000); // Default timeout in milliseconds
 
     // We need our client side to react when there is an incoming notification from the server side.
     useEffect(() => {
@@ -19,22 +19,37 @@ const MainPage: React.FC = () => {
         const eventSource = new EventSource('http://localhost:9000/events') // As specified
 
         eventSource.onmessage = (notification) => {
-            const notificationData = JSON.parse(notification.data);
+            const notificationData = JSON.parse(notification.data) as Notification;
+            const timeoutId = setTimeout(() => {
+                setNotifications((previousNotifications) => previousNotifications.filter((n) => n.msg_id !== notificationData.msg_id));
+            }, notificationDisappearTime);
+
+            const notificationWithTimeOut: NotificationWithTimeout = { ...notificationData, timeoutId} 
+            
+            console.log("Timeout added to notification: ", notificationData)
+            
             if (notificationPosition == 3 || notificationPosition == 4) {
                 // Append at bottom. 
                 setNotifications((previousNotifications) => {
                     if (previousNotifications.length >= maxNotifications) {
                         previousNotifications.shift()
-                        previousNotifications.push(notificationData)
+                        // previousNotifications.push(notificationData)
+                        previousNotifications.push(notificationWithTimeOut)
                     }
-                    return [...previousNotifications.slice(0, maxNotifications - 1), notificationData]
+                    // return [...previousNotifications.slice(0, maxNotifications - 1), notificationData]
+                    return [...previousNotifications.slice(0, maxNotifications - 1), notificationWithTimeOut]
                 }) // append. Check for constraints
             } else {
-                setNotifications((previousNotifications) => [notificationData, ...previousNotifications.slice(0, maxNotifications - 1)]) // append. Check for constraints
+                // setNotifications((previousNotifications) => [notificationData, ...previousNotifications.slice(0, maxNotifications - 1)]) // append. Check for constraints
+                setNotifications((previousNotifications) => [notificationWithTimeOut, ...previousNotifications.slice(0, maxNotifications - 1)])
             }
-            setTimeout(() => {
-                setNotifications((previousNotifications) => previousNotifications.filter((n) => n !== notificationData));
-              }, notificationDisappearTime);
+            console.log("NotificationWithTimeOut added: ", notificationWithTimeOut)
+
+            // setTimeout required an ID for each notification box in order to
+            // Identify which notification to reset timeout during mouseEnter 
+            // setTimeout(() => {
+            //     setNotifications((previousNotifications) => previousNotifications.filter((n) => n !== notificationData));
+            // }, notificationDisappearTime);
         }
 
         return () => {
@@ -47,6 +62,23 @@ const MainPage: React.FC = () => {
         // Filter out the notification whose X button has been clicked
     }
 
+    const handleMouseEnter = (notificationWithTimeOut: NotificationWithTimeout) => {
+        // Clear the existing timeout only for that notification
+        clearTimeout(notificationWithTimeOut.timeoutId);
+    };
+
+    const handleMouseLeave = (notificationWithTimeOut: NotificationWithTimeout) => {
+        //Set timeout for that notification again
+        const timeoutId = setTimeout(() => {
+            setNotifications((previousNotifications) => previousNotifications.filter((n) => n.msg_id !== notificationWithTimeOut.msg_id));
+        }, notificationDisappearTime);
+        setNotifications((currNotifications) =>
+            currNotifications.map((n) => (n === notificationWithTimeOut ? { ...n, timeoutId } : n))
+        );
+    }
+
+
+
     return(
         <div className={`notification-container position-${notificationPosition}`}>
             {notifications.map((notification, index) => (
@@ -54,6 +86,8 @@ const MainPage: React.FC = () => {
                 <div
                     key={index}
                     className={`notification-box position-${notificationPosition}`}
+                    onMouseEnter={() => handleMouseEnter(notification)}
+                    onMouseLeave={() => handleMouseLeave(notification)}
                 >
                     <NotificationBox
                         notification={notification}
