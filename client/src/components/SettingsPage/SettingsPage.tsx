@@ -76,7 +76,7 @@ const SettingsPage: React.FC = () => {
                 </div>
             </div>
             <div className="settings-box">
-                <div className="label">Notification disappear time</div>
+                <div className="label">Notification disappear time (miliseconds)</div>
                 <input 
                     type="number"
                     value={notificationDisappearTime}

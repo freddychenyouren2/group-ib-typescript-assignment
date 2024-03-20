@@ -36,10 +36,10 @@ const MainPage: React.FC = () => {
                         previousNotifications.shift()
                         previousNotifications.push(notificationWithTimeOut)
                     }
-                    return [...previousNotifications.slice(0, notificationCount - 1), notificationWithTimeOut]
+                    return [notificationWithTimeOut, ...previousNotifications.slice(0, notificationCount - 1)]
                 }) // append. Check for constraints
             } else {
-                setNotifications((previousNotifications) => [notificationWithTimeOut, ...previousNotifications.slice(0, notificationCount - 1)])
+                setNotifications((previousNotifications) => [...previousNotifications.slice(0, notificationCount - 1), notificationWithTimeOut])
             }
         }
 
@@ -81,8 +81,6 @@ const MainPage: React.FC = () => {
         );
     }
 
-
-
     return(
         <div className={`notification-container position-${notificationPosition}`}>
             {notifications.map((notification, index) => (
@@ -95,7 +93,8 @@ const MainPage: React.FC = () => {
                 >
                     <NotificationBox
                         notification={notification}
-                        onClose={() => { handleCloseNotification(notification, index); } } />
+                        onClose={() => { handleCloseNotification(notification, index); } }
+                     />
                 </div>
                 </>
             ))}
