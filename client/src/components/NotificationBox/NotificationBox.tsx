@@ -35,6 +35,7 @@ const NotificationBox: React.FC<NotificationBoxProps> = ({ notification, onClose
             <div className="notification-content">
                 <div className="msg-id">Notification ID: {notification.msg_id}</div>
                 <br></br>
+                <div className="time">Notification Time: {notification.time}</div>
                 <div className="time">Notification Time: {formattedDate}</div>
                 <div className="msg">Message: {notification.msg}</div>
             </div>

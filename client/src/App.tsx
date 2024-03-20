@@ -13,7 +13,7 @@ const App: React.FC = () => {
                 <div className="app">
                     <header>
                         <div className="header-container">
-                            <h1>Group-IB</h1>
+                            {/* <h1>Group-IB</h1> */}
                             <NavigationBar />
                         </div>
                     </header>

@@ -8,7 +8,19 @@
     width: auto;
     display: flex;
     justify-content: space-between; /*For horizontal alignment*/
+    animation: zoomIn 0.5s ease-in-out;
 }
+
+@keyframes zoomIn {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 
 .notification-content {
     flex-grow: 1; /*Allow content to expand*/
